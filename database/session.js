@@ -14,8 +14,8 @@ exports.login = function (req, res, next) {
 			return console.error(err);
 		}
 
-		if (user) {
-			req.session.user = {email : user.email};
+		if (email) {
+			req.session.email = {email : user.email};
 			res.redirect('/home');
 		}
 		else {
