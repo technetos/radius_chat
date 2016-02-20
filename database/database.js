@@ -15,7 +15,7 @@ mongoose.connect(config.mongoUrl);
 
 // voodoo hash function
 function hash (text) {
-	return crpyto.createHash('sha1').update(text).digest('base64');
+	return crypto.createHash('sha1').update(text).digest('base64');
 }
 
 exports.create = function (username, email, password, location, callback) {
@@ -37,8 +37,6 @@ exports.create = function (username, email, password, location, callback) {
 			return console.error(err);
 		}
 	});
-
-	res.send("Data added successfully");
 }
 
 exports.remove = function (username, callback) {
