@@ -25,10 +25,7 @@ exports.create = function (username, email, password, location, callback) {
 		username : username,
 		email : email,
 		password : hash(password),
-		location : {
-			longitude : location.longitude,
-			latitude : location.latitude
-		}
+		location : location
 	});
 	
 	// saves the user into the users collection
@@ -48,9 +45,9 @@ exports.remove = function (username, callback) {
 	});
 }
 
-exports.get = function (username, callback) {
+exports.get = function (email, callback) {
 	// queries database for a given user and returns it
-	User.findOne({username : username}, {_id : false}, function (err, result) {
+	User.findOne({email : email}, {_id : false}, function (err, result) {
 		if (err) {
 			return console.error(err);
 		}
