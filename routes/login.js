@@ -4,10 +4,6 @@ var auth = require('../database/session');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 
-router.post('/login', jsonParser, auth.login);
-
-router.get('/logout', auth.logout);
-
-router.post('/signup', jsonParser, auth.signup);
+router.post('/', jsonParser, auth.login);
 
 module.exports = router;

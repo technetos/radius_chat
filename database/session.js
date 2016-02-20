@@ -1,4 +1,4 @@
-var User = require('models/user');
+var db = require('./database');
 
 exports.login = function (req, res, next) {
 	if (req.session.user) {
@@ -9,7 +9,7 @@ exports.login = function (req, res, next) {
 	var username = req.body.username;
 	var password = req.body.password;
 
-	User.authenticate(username, password, function (err, user) {
+	db.authenticate(username, password, function (err, user) {
 		if (err) {
 			return console.error(err);
 		}
@@ -39,7 +39,7 @@ exports.authorize = function (req, res, next) {
 }
 
 exports.signup = function (req, res, next) {
-	User.create(req.body.username, req.body.email, req.body.password, req.body.location,
+	db.create(req.body.username, req.body.email, req.body.password, req.body.location,
 	function (err, data) {
 		if (err) {
 			return console.error(err);
@@ -48,4 +48,5 @@ exports.signup = function (req, res, next) {
 			console.log(data);
 		}
 	});
+	res.send("Data created");
 }

@@ -1,18 +1,16 @@
 // requiring db related middleware
 var mongoose = require('mongoose');
-var config = require('./config/config');
+var config = require('../config/config');
 var cuid = require('cuid');
 var crypto = require('crypto');
 
 var db = mongoose.connection;
 
 // requiring user mongoose model
-var User = require('models/user');
-var table = 'users';
+var User = require('./models/user');
 
 db.on('error', console.error);
 
-// connection to db on the server
 mongoose.connect(config.mongoUrl);
 
 // voodoo hash function
@@ -41,7 +39,7 @@ exports.create = function (username, email, password, location, callback) {
 	});
 
 	res.send("Data added successfully");
-});
+}
 
 exports.remove = function (username, callback) {
 	// removes the user with the passed in username
@@ -50,7 +48,7 @@ exports.remove = function (username, callback) {
 			return console.error(err);
 		}
 	});
-});
+}
 
 exports.get = function (username, callback) {
 	// queries database for a given user and returns it
@@ -67,7 +65,7 @@ exports.get = function (username, callback) {
 			res.json(result);
 		}
 	});
-});
+}
 
 exports.all = function (callback) {
 	User.find({}, {_id : false}, function (err, result) {

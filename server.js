@@ -6,9 +6,10 @@ var bodyParser = require('body-parser');
 
 // Routes go here
 var index = require('./routes/index');
-var login = require('./routes/auth/login');
-var logout = require('./routes/auth/logout');
-var signup = require('./routes/auth/signup');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
+var signup = require('./routes/signup');
+//var auth = require('./routes/auth');
 
 var server = express();
 

@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
 	location : {
 		longitude : String,
 		latitude : String
+	}
 	}, {versionKey : false}
-});
+);
 
 module.exports = mongoose.model('User', userSchema);
