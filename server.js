@@ -54,6 +54,27 @@ server.use(bodyParser.json());
 // here we configure express's body parser to support urlencoded
 server.use(bodyParser.urlencoded({extended : false }));
 
+// setting up session storage
+var mongoose = require('mongoose');
+
+// database object
+var db = mongoose.connection;
+
+// connect to database server
+db.connect(config.mongoUrl);
+
+// setting up session object
+server.use(session({
+	secret : 'rumble_from_down_under',
+	cookie : {maxAge : 1000000000},
+	store  : new (require('express-sessions'))({
+		storage : 'mongodb',
+		instance : mongoose,
+		db : 'test',
+		collection : 'sessions'
+	});
+}));
+
 server.use('/', index);
 server.use('/login', login);
 server.use('/logout', logout);

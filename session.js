@@ -3,6 +3,7 @@ var db = require('./database');
 var session = {};
 
 session.login = function(req, res, next) {
+	
 }
 
 session.logout = function(req, res, next) {
