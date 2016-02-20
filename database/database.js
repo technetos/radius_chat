@@ -81,9 +81,9 @@ exports.all = function (callback) {
 	});
 }
 
-exports.authenticate = function (username, password, callback) {
+exports.authenticate = function (email, password, callback) {
 	// queries database for a given user and returns it
-	User.findOne({username : username}, {_id : false}, function (err, result) {
+	User.findOne({email : email}, {_id : false}, function (err, result) {
 		if (err) {
 			return console.error(err);
 		}

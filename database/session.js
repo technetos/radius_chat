@@ -6,16 +6,16 @@ exports.login = function (req, res, next) {
 		res.redirect('/home');
 	}
 
-	var username = req.body.username;
+	var email = req.body.email;
 	var password = req.body.password;
 
-	db.authenticate(username, password, function (err, user) {
+	db.authenticate(email, password, function (err, user) {
 		if (err) {
 			return console.error(err);
 		}
 
 		if (user) {
-			req.session.user = {username : user.username};
+			req.session.user = {email : user.email};
 			res.redirect('/home');
 		}
 		else {
