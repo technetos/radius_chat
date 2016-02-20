@@ -2,7 +2,7 @@
 // OR ANOTHER CALLED BY THIS FILE...SHIT STARTS HERE!
 
 var express         = require('express');
-var session         = require('express-session');
+var session         = require('express-sessions');
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
