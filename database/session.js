@@ -22,6 +22,8 @@ exports.login = function (req, res, next) {
 			res.redirect('/login');
 		}
 	});
+
+	res.send("Logged in");
 }
 
 exports.logout = function (req, res, next) {
