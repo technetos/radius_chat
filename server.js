@@ -10,6 +10,7 @@ var index = require('./routes/index');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 var signup = require('./routes/signup');
+var home = require('./routes/home');
 //var auth = require('./routes/auth');
 
 var server = express();
@@ -21,8 +22,6 @@ server.use(function (req, res, next) {
 });
 
 server.use(cookieParser());
-
-var redis = require('redis');
 
 server.use(session({
 	cookieName : 'session',
@@ -44,6 +43,7 @@ server.use('/', index);
 server.use('/login', login);
 server.use('/logout', logout);
 server.use('/signup', signup);
+server.use('/home', home);
 
 // 404 handler
 server.use(function (req, res, next) {

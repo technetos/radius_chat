@@ -2,27 +2,27 @@ var db = require('./database');
 
 exports.login = function (req, res, next) {
 	//stream line
-
 	if (req.session.user) {
-		console.log("CACHED BITCH");
+	
 	}
+	else {
+		var email = req.body.email;
+		var password = req.body.password;
 
-	var email = req.body.email;
-	var password = req.body.password;
-
-	db.authenticate(email, password, function (err, user) {
-		if (err) {
-			return console.error(err);
-		}
-		if (user) {
-			req.session.user = user;
-		}
-		else {
-			res.redirect('/login');
-		}
-	});
-
-	res.send("Logged in");
+		db.authenticate(email, password, function (err, user) {
+			if (err) {
+				return console.error(err);
+			}
+			if (user) {
+				req.session.user = {email : user.email, username : user.username};
+				res.redirect('/home');
+			}
+			else {
+				res.redirect('/login');
+			}
+		});
+	}
+	res.send("PORQUE");
 }
 
 exports.logout = function (req, res, next) {
