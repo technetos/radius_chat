@@ -17,18 +17,26 @@ mongoose.connect(config.mongoUrl);
 function hash (text) { return crypto.createHash('sha1').update(text).digest('base64'); }
 
 exports.create = function(username, email, password, location, callback) {
-	// creates our user document to be saved into the db
-	var user = new User({
+    User.findOne({email : email}, function (err, result) {
+        if (result === null) {
+	    // creates our user document to be saved into the db
+	    var user = new User({
 		_id         :   cuid(),
 		username    : username,
 		email       : email,
 		password    : hash(password),
 		location    : location
-	});
+	    });
+	
+	    // saves the user into the users collection
+	    user.save(function (err) { if (err) { return console.error(err); } });
+	    callback("entered new user");
+	}
+	else {
+	    callback("already in the database");   
+	}
+    });
 
-	// saves the user into the users collection
-	user.save(function (err) { if (err) { return console.error(err); } });
-    callback("user created successfully");
 }
 
 exports.remove = function(username, callback)
