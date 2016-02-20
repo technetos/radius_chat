@@ -4,8 +4,6 @@
 //
 // Code reuse is a good thing; sometimes silly languages act silly, that does not make code reuse silly.
 
-var config = require('config');
-
 var mongoose = require('mongoose');
 
 // require caches the result the first time it gets called => it will return the same object,
@@ -13,10 +11,10 @@ var mongoose = require('mongoose');
 // state.db variable
 var state = { db: null, };
 
-exports.connect = function(config.mongoUrl, result) {
+exports.connect = function(url, result) {
     if(state.db) { return result() }
 
-    mongoose.connect(config.mongoUrl, function(err, db) {
+    mongoose.connect(url, function(err, db) {
         if(err) { return result(err); }
         state.db = db;
         done();
