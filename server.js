@@ -38,6 +38,44 @@ server.use(function(req, res, next) {
     next();
 });
 
+// here we are setting the path to look in for views
+server.set('view', path.join(__dirname, 'view'));
+// here we are configuring express to use jade as the view engine
+server.set('view engine', 'jade');
+
 // here we configure express to use cookie-parser middleware for extracting the data from cookies
 server.use(cookieParser());
+
+// here we configure express to use 'dev' level logging
+server.use(logger('dev'));
+// here we configure express to use the body parsing middleware
+server.use(bodyParser.json());
+// here we configure express's body parser to support urlencoded
+server.use(bodyParser.urlencoded({extended : false }));
+
+server.use('/', index);
+server.use('/login', login);
+server.use('/logout', logout);
+server.use('/signup', signup);
+
+// 404 handler
+server.use(function(req, res, next) {
+    var err = new Error('Not found');
+    err.status = 404;
+    next(err);
+});
+
+if(server.get('env') === 'development') {
+    server.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.status('error').json({ message : err.message, error : err });
+    });
+}
+
+server.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.status('error').json({ message : err.message, error : {} });
+});
+
+module.exports = server;
 
