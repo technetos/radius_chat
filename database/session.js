@@ -1,9 +1,10 @@
-var db = require('./database');
+var db = require('./database'); 
 
 exports.login = function (req, res, next) {
+	//stream line
+
 	if (req.session.user) {
-		// enter where they should go
-		res.redirect('/home');
+		console.log("CACHED BITCH");
 	}
 
 	var email = req.body.email;
@@ -13,10 +14,8 @@ exports.login = function (req, res, next) {
 		if (err) {
 			return console.error(err);
 		}
-
 		if (user) {
-			req.session.user = db.get(user.email);
-			res.json(req.session.user);
+			req.session.user = user;
 		}
 		else {
 			res.redirect('/login');

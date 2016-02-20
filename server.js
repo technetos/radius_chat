@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('client-sessions');
 
 // Routes go here
 var index = require('./routes/index');
@@ -13,12 +14,22 @@ var signup = require('./routes/signup');
 
 var server = express();
 
-
 server.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });
+
+server.use(cookieParser());
+
+var redis = require('redis');
+
+server.use(session({
+	cookieName : 'session',
+	secret : 'rumble_from_down_under',
+	duration : 30 * 60 * 1000,
+	activeDuration : 5 * 60 * 1000
+}));
 
 // view engine set up
 server.set('views', path.join(__dirname, 'views'));
@@ -28,7 +39,6 @@ server.set('view engine', 'jade');
 server.use(logger('dev'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended : false}));
-server.use(cookieParser());
 
 server.use('/', index);
 server.use('/login', login);
