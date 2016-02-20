@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 
 // Routes go here
 var index = require('./routes/index');
+var login = require('./routes/auth/login');
+var logout = require('./routes/auth/logout');
+var signup = require('./routes/auth/signup');
 
 var server = express();
 
@@ -20,6 +23,9 @@ server.use(bodyParser.urlencoded({extended : false}));
 server.use(cookieParser());
 
 server.use('/', index);
+server.use('/login', login);
+server.use('/logout', logout);
+server.use('/signup', signup);
 
 // 404 handler
 server.use(function (req, res, next) {

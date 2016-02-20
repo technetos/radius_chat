@@ -39,6 +39,8 @@ exports.create = function (username, email, password, location, callback) {
 			return console.error(err);
 		}
 	});
+
+	res.send("Data added successfully");
 });
 
 exports.remove = function (username, callback) {
@@ -52,7 +54,7 @@ exports.remove = function (username, callback) {
 
 exports.get = function (username, callback) {
 	// queries database for a given user and returns it
-	User.find({username : username}, {_id : false}, function (err, result) {
+	User.findOne({username : username}, {_id : false}, function (err, result) {
 		if (err) {
 			return console.error(err);
 		}
@@ -83,7 +85,20 @@ exports.all = function (callback) {
 	});
 }
 
-exports.authenticate = function () {
-
+exports.authenticate = function (username, password, callback) {
+	// queries database for a given user and returns it
+	User.findOne({username : username}, {_id : false}, function (err, result) {
+		if (err) {
+			return console.error(err);
+		}
+		
+		// if password is correct
+		if (result.password === hash(password)) {
+			callback(null, result);
+		}
+		else {
+			callback();
+		}
+	});
 }
 
