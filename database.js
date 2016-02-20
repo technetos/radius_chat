@@ -75,6 +75,8 @@ exports.authenticate = function(email, password, callback)
 		if (err) { return console.error(err); }
 		
 		// if password is correct
+        //
+        // breaks if password is null here
 		if (result.password === hash(password)) {
 			callback(null, result);
 		} else { callback(); }

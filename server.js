@@ -2,11 +2,12 @@
 // OR ANOTHER CALLED BY THIS FILE...SHIT STARTS HERE!
 
 var express         = require('express');
-var session         = require('express-sessions');
+var session         = require('express-session');
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var path            = require('path');
+var fileStore       = require('session-file-store')(session);
 
 // Routes
 
@@ -54,25 +55,11 @@ server.use(bodyParser.json());
 // here we configure express's body parser to support urlencoded
 server.use(bodyParser.urlencoded({extended : false }));
 
-// setting up session storage
-var mongoose = require('mongoose');
-
-// database object
-var db = mongoose.connection;
-
-// connect to database server
-db.connect(config.mongoUrl);
-
-// setting up session object
 server.use(session({
-	secret : 'rumble_from_down_under',
-	cookie : {maxAge : 1000000000},
-	store  : new (require('express-sessions'))({
-		storage : 'mongodb',
-		instance : mongoose,
-		db : 'test',
-		collection : 'sessions'
-	});
+    store: new fileStore,
+    secret: 'terumble_downUnder',
+    resave: true,
+    saveUninitialized: true
 }));
 
 server.use('/', index);
