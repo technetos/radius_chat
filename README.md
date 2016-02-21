@@ -1,2 +1,5 @@
-# radius_chat
-A location based chat
+testing instructions:
+
+run command from root of directory: bin/www server.js
+
+
