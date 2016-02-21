@@ -36,7 +36,6 @@ exports.create = function(username, email, password, geoLocation, callback) {
 	    callback("already in the database");   
 	}
     });
-
 }
 
 exports.remove = function(username, callback)
