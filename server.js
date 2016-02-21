@@ -32,7 +32,7 @@ var signup  = require('./routes/signup');
 
 // here we instantiate an instance of express and assign it to `server`
 var server = express();
-
+var io = require('socket.io').listen(server);
 // here we configure express to accept connections from outside our domain origin
 server.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -88,7 +88,7 @@ server.use(function(err, req, res, next) {
     res.status('error').json({ message : err.message, error : {} });
 });
 
-io.sockets.on('connection',socket);
+io.sockets.on('connection', socket );
 
 module.exports = server;
 

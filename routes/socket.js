@@ -1,12 +1,14 @@
 
 module.exports = function(socket){
+
 socket.on('send:message', function (data) {
     socket.broadcast.emit('send:message', {
-      sender: data.sender
+      sender: data.sender,
       text: data.text,
       geoLocation : {
         longitude : data.geoLocation.longitude,
 	latitude : data.geoLocation.latitude
+      }
     });
 });
 
@@ -16,4 +18,5 @@ socket.on('send:message', function (data) {
 	});
 	userNames.free(name);
     });
-}
+}  
+
