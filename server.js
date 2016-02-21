@@ -8,7 +8,7 @@ var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var path            = require('path');
 var fileStore       = require('session-file-store')(sess);
-
+    socket          = require('./routes/socket.js');
 // Routes
 
 // this will only contain a prompt for the user to login or signup,
@@ -87,6 +87,8 @@ server.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.status('error').json({ message : err.message, error : {} });
 });
+
+io.sockets.on('connection',socket);
 
 module.exports = server;
 
