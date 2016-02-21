@@ -4,11 +4,15 @@ var session = {};
 
 session.login = function(req, res, next) {
     if(req.session.user.email == req.body.email) {
-        res.json('authenticated');
+        res.json('authenticated'); 
+    
     } else {
+    
         var email       = req.body.email;
         var password    = req.body.password;
+        
         db.authenticate(email, password, function(err, user) {
+            
             if(err) return console.log(err);
 
             if(user) {
@@ -32,19 +36,14 @@ session.authorize = function(req, res, next) {
 }
 
 session.signup = function(req, res, next) {
-    db.create(
-            req.body.username,
-            req.body.email,
-            req.body.password,
-            req.body.location,
-            function(err, data) {
-                if(err) {
-                    return console.log(err);
-                } else {
-                    console.log(data);
-                }
-            });
-    res.json("data created");
+    db.create(req.body.username, req.body.email, req.body.password, req.body.geolocation, function(data) {
+        if(
+        if(data) {
+            res.status(409).json({});
+        } else {
+            res.status(200).json({});
+        }
+    });
 }
 
 module.exports = session;
