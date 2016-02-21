@@ -16,7 +16,7 @@ mongoose.connect(config.mongoUrl);
 // voodoo hash function
 function hash (text) { return crypto.createHash('sha1').update(text).digest('base64'); }
 
-exports.create = function(username, email, password, location, callback) {
+exports.create = function(username, email, password, geoLocation, callback) {
     User.findOne({email : email}, function (err, result) {
         if (result === null) {
 	    // creates our user document to be saved into the db
@@ -25,7 +25,7 @@ exports.create = function(username, email, password, location, callback) {
 		username    : username,
 		email       : email,
 		password    : hash(password),
-		location    : location
+		geoLocation : geoLocation
 	    });
 	
 	    // saves the user into the users collection
@@ -76,15 +76,13 @@ exports.all = function(callback)
     });
 }
 
-exports.authenticate = function(email, password, callback)
-{
+exports.authenticate = function(email, password, callback) {
 	// queries database for a given user and returns it
 	User.findOne({email : email}, {_id : false}, function (err, result) {
 		if (err) { return console.error(err); }
 		
 		// if password is correct
-        //
-        // breaks if password is null here
+		// breaks if password is null here
 		if (result.password === hash(password)) {
 			callback(null, result);
 		} else { callback(); }

@@ -2,12 +2,12 @@
 // OR ANOTHER CALLED BY THIS FILE...SHIT STARTS HERE!
 
 var express         = require('express');
-var session         = require('express-session');
+var sess            = require('express-session');
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var path            = require('path');
-var fileStore       = require('session-file-store')(session);
+var fileStore       = require('session-file-store')(sess);
 
 // Routes
 
@@ -55,9 +55,10 @@ server.use(bodyParser.json());
 // here we configure express's body parser to support urlencoded
 server.use(bodyParser.urlencoded({extended : false }));
 
-server.use(session({
+server.use(sess({
     store: new fileStore,
-    secret: 'terumble_downUnder',
+    path : './sessions',
+    secret: 'the_rumble_down_Under',
     resave: true,
     saveUninitialized: true
 }));
