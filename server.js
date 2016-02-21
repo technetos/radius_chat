@@ -8,7 +8,7 @@ var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var path            = require('path');
 var fileStore       = require('session-file-store')(sess);
-    socket          = require('./routes/socket.js');
+var socket          = require('./routes/socket.js');
 // Routes
 
 // this will only contain a prompt for the user to login or signup,
@@ -32,7 +32,7 @@ var signup  = require('./routes/signup');
 
 // here we instantiate an instance of express and assign it to `server`
 var server = express();
-var io = require('socket.io').listen(server);
+
 // here we configure express to accept connections from outside our domain origin
 server.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -54,15 +54,6 @@ server.use(logger('dev'));
 server.use(bodyParser.json());
 // here we configure express's body parser to support urlencoded
 server.use(bodyParser.urlencoded({extended : false }));
-
-server.use(sess({
-    store: new fileStore(),
-    name : 'cookie_id',
-    secret: 'the_rumble_down_Under',
-    resave: true,
-    user : {},
-    saveUninitialized: true
-}));
 
 server.use('/', index);
 server.use('/login', login);
@@ -87,8 +78,6 @@ server.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.status('error').json({ message : err.message, error : {} });
 });
-
-io.sockets.on('connection', socket );
 
 module.exports = server;
 

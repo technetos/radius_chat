@@ -4,14 +4,13 @@ var session = {};
 
 session.login = function(req, res, next) { 
     db.authenticate(req.body.email, req.body.password, function(err, user) {
-        console.dir(user.toObject());
 	if (err) {
 	   console.error(err);
         }
         if (user != null) {
-	    var obj = {username : user.username, email : user.email, geoLocation : user.geoLocation};
-	    console.dir(obj);
-	    res.status(200).json(obj);
+	    //var obj = {username : user.username, email : user.email, geoLocation : user.geoLocation};
+	    console.log("client connected");
+	    res.status(200).json(user);
 	} else {
 	    res.status(404).send("user was not in database");
 	}
