@@ -9,18 +9,21 @@ session.login = function(req, res, next) {
     console.dir(req.body);
     // if the req.session.user.email is equal to req.body.email
     if(req.session.user != undefined) {
-	if (req.session.user.email == req.body.email) {
-	    console.log("in the first if of sessions")
-	    res.status(200).send("already authenticated");
+	if (req.session.user.email != undefined) {     
+	    if (req.session.user.email == req.body.email) {
+		console.log("in the first if of sessions")
+		res.status(200).send("already authenticated");
+	    }
 	}
     }
+    
     console.log("In the else in Session.js")
     var email       = req.body.email;
     var password    = req.body.password;
     db.authenticate(email, password, function(err, user) {
         console.log("error: " + err + " user: " + user);
         if(err) {
-    	console.error(err);
+	   console.error(err);
         }
         if (user) {
 	    console.dir(user.toObject());

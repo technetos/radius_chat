@@ -77,15 +77,18 @@ exports.all = function(callback)
 }
 
 exports.authenticate = function(email, password, callback) {
-	// queries database for a given user and returns it
-	User.findOne({email : email}, {_id : false}, function (err, result) {
-		if (err) { return console.error(err); }
-		
-		// if password is correct
-		// breaks if password is null here
-		if (result.password === hash(password)) {
-			callback(null, result);
-		} else { callback(); }
+    // queries database for a given user and returns it
+    User.findOne({email : email}, {_id : false}, function (err, result) {
+        if (err) { return console.error(err); }
+    	
+        // if password is correct
+        // breaks if password is null here
+        if (result.password === hash(password)) {
+	    callback(null, result);
+	} 
+        else { 
+	   callback();
+	}
     });
 }
 
