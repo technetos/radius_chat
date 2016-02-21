@@ -3,37 +3,38 @@ var db = require('./database');
 var session = {};
 
 session.login = function(req, res, next) { 
-    console.log("sessions first");
-    console.dir(req.session);
-    console.log("next is the req.body");
-    console.dir(req.body);
+    //console.log("sessions first");
+    //console.dir(req.session);
+    //console.log("next is the req.body");
+    //console.dir(req.body);
     // if the req.session.user.email is equal to req.body.email
-    if(req.session.user != undefined) {
-	if (req.session.user.email != undefined) {     
+    
+    /*if(req.session.user != undefined) {
+	console.log("user is defined");
+	if (req.session.user.email != undefined) {
+	    console.log("email is defined");
 	    if (req.session.user.email == req.body.email) {
-		console.log("in the first if of sessions")
-		res.status(200).send("already authenticated");
+		console.log("in the first if of sessions");
+		res.send("authenticated");
 	    }
 	}
-    }
+    }*/
     
+    //res.send("failed");
     console.log("In the else in Session.js")
     var email       = req.body.email;
     var password    = req.body.password;
+    
     db.authenticate(email, password, function(err, user) {
         console.log("error: " + err + " user: " + user);
-        if(err) {
+        if (err) {
 	   console.error(err);
         }
-        if (user) {
-	    console.dir(user.toObject());
-	    req.session.user = {
-                email       : user.email,
-                password    : user.password
-	    }
-        } else {
-            res.status(409).send("the user was not in the database");
-        }
+        if (user != undefined) {
+	    res.status(200).json(user);
+	} else {
+	    res.send("user was not in database");
+	}
     });
 };
 

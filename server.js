@@ -56,10 +56,11 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended : false }));
 
 server.use(sess({
-    store: new fileStore,
-    path : './sessions',
+    store: new fileStore(),
+    name : 'cookie_id',
     secret: 'the_rumble_down_Under',
     resave: true,
+    user : {},
     saveUninitialized: true
 }));
 
