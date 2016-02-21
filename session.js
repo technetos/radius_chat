@@ -36,13 +36,14 @@ session.authorize = function(req, res, next) {
 }
 
 session.signup = function(req, res, next) {
-    db.create(req.body.username, req.body.email, req.body.password, req.body.geolocation, function(data) {
-        if(
-        if(data) {
-            res.status(409).json({});
-        } else {
-            res.status(200).json({});
-        }
+    User.findOne( { $or : [{email : req.body.email}, {username : req.body.username}] } , function (err, result) {
+	if (result === null) {
+	    db.create(req.body.username, req.body.email, req.body.password, req.body.geolocation);
+	    res.status(200).json({});
+	}
+	else {
+	    res.status(409).json({});
+	}
     });
 }
 
