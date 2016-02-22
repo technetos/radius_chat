@@ -29,7 +29,11 @@ exports.create = function(username, email, password, geoLocation, callback) {
 	    });
 	
 	    // saves the user into the users collection
-	    user.save(function (err) { if (err) { return console.error(err); } });
+	    user.save(function (err) {
+		if (err) { 
+		    return console.error(err); 
+		} 
+	    });
 	    callback("entered new user");
 	}
 	else {
@@ -38,47 +42,52 @@ exports.create = function(username, email, password, geoLocation, callback) {
     });
 }
 
-exports.remove = function(username, callback)
-{
-	// removes the user with the passed in username
-	User.remove({username : username}, function (err) {
-		if (err) { return console.error(err); }
+exports.remove = function (username, callback) {
+    // removes the user with the passed in username
+    User.remove({username : username}, function (err) {
+	if (err) { return console.error(err); }
     });
 }
 
-exports.get = function(email, callback)
-{
-	// queries database for a given user and returns it
-	User.findOne({email : email}, {_id : false}, function (err, result) {
-
-        if (err) { return console.error(err); }
+exports.get = function (email, callback) {
+    // queries database for a given user and returns it
+    User.findOne({email : email}, {_id : false}, function (err, result) {
+        if (err) {
+	     return console.error(err);
+	}
 
         // if the user is not in the database, return 404
-		if (result == null) { res.status(404).send("User not found");
-		
-        // else return the user object
-        } else { res.json(result); }
+    	if (result == null) {
+	     res.status(404).send("User not found");
+	} 
+	else { 
+	    res.json(result);
+	 }
     });
 }
 
-exports.all = function(callback)
-{
-	User.find({}, {_id : false}, function (err, result) {
-
-        if (err) { return console.error(err); }
+exports.all = function (callback) {
+    User.find({}, {_id : false}, function (err, result) {
+	if (err) { 
+	    return console.error(err);
+	}
 		
-        // if the user is not in the database, return 404
-		if (result == null) { res.status(404).send("User not found");
-
-        // else return the user object
-        } else { res.json(result); }
+	// if the user is not in the database, return 404
+	if (result == null) {
+	    res.status(404).send("User not found");
+	}
+	else {
+	    res.json(result);
+	}
     });
 }
 
 exports.authenticate = function(email, password, callback) {
     // queries database for a given user and returns it
     User.findOne({email : email}, {_id : false}, function (err, result) {
-        if (err) { return console.error(err); }
+        if (err) { 
+	    return console.error(err);
+	 }
     	
         // if password is correct
         // breaks if password is null here

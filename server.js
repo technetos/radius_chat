@@ -4,11 +4,9 @@
 var express         = require('express');
 var sess            = require('express-session');
 var bodyParser      = require('body-parser');
-var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var path            = require('path');
-var fileStore       = require('session-file-store')(sess);
-var socket          = require('./routes/socket.js');
+
 // Routes
 
 // this will only contain a prompt for the user to login or signup,
@@ -44,9 +42,6 @@ server.use(function(req, res, next) {
 server.set('view', path.join(__dirname, 'view'));
 // here we are configuring express to use jade as the view engine
 server.set('view engine', 'jade');
-
-// here we configure express to use cookie-parser middleware for extracting the data from cookies
-server.use(cookieParser());
 
 // here we configure express to use 'dev' level logging
 server.use(logger('dev'));

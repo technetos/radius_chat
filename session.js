@@ -22,18 +22,20 @@ session.logout = function(req, res, next) {
 }
 
 session.authorize = function(req, res, next) {
+
 }
 
 session.signup = function(req, res, next) {
     db.create(req.body.username, req.body.email, req.body.password, req.body.geoLocation,
-    function(err, data) {
-	if(err) {
-            return console.log(err);
+    function (msg) {
+	if (msg == 'entered new user') {
+            console.log(msg);
+	    res.status(200).send(msg);
         } else {
-            console.log(data);
+            console.log(msg);
+	    res.status(409).send(msg);
         }
     });
-    res.json("data created");
 }
 
 module.exports = session;
