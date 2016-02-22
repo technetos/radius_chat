@@ -3,10 +3,10 @@
 
 var express     = require('express');
 var router      = express.Router();
-var session     = require('../session');
+var client      = require('../client');
 var bodyParser  = require('body-parser');
 var jsonParser  = bodyParser.json();
 
-router.post('/', jsonParser, session.login);
+router.post('/', jsonParser, client.login);
 
 module.exports = router;

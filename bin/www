@@ -4,10 +4,9 @@
  * Module dependencies
  */
 
-var app = require('../server');
+var app = require('../app');
 var debug = require('debug')('API:server');
 var http = require('http');
-var socket = require('../routes/socket');
 
 /**
  * Get port from environment and store in Express
@@ -20,16 +19,24 @@ app.set('port', port);
  * Create HTTP server
  */
 
+// creates a server based on the express app
 var server = http.createServer(app);
 
+// creates a socket io object and tells it to listen to the server
 var io = require("socket.io").listen(server);
 
+// sets the io.socket session connection function
 io.sockets.on('connection', function (socket) {
-    
+    // when the clients send a message
     socket.on('send:message', function (data) {
-	console.dir(data);
-	io.sockets.emit('send:message', data.message);
-    }); 
+		// log the data passed in the message
+		console.dir(data);
+	
+		// broadcasts the message to all users connected via socket.io
+		io.sockets.emit('send:message', data.message);
+    });
+
+
 });
 
 /**

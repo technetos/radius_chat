@@ -2,7 +2,6 @@
 // OR ANOTHER CALLED BY THIS FILE...SHIT STARTS HERE!
 
 var express         = require('express');
-var sess            = require('express-session');
 var bodyParser      = require('body-parser');
 var logger          = require('morgan');
 var path            = require('path');
@@ -28,51 +27,51 @@ var logout  = require('./routes/logout');
 // route always redirects to our login route at the end of its execution
 var signup  = require('./routes/signup');
 
-// here we instantiate an instance of express and assign it to `server`
-var server = express();
+// here we instantiate an instance of express and assign it to `app`
+var app = express();
 
 // here we configure express to accept connections from outside our domain origin
-server.use(function(req, res, next) {
+app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
 // here we are setting the path to look in for views
-server.set('view', path.join(__dirname, 'view'));
+app.set('view', path.join(__dirname, 'view'));
 // here we are configuring express to use jade as the view engine
-server.set('view engine', 'jade');
+app.set('view engine', 'jade');
 
 // here we configure express to use 'dev' level logging
-server.use(logger('dev'));
+app.use(logger('dev'));
 // here we configure express to use the body parsing middleware
-server.use(bodyParser.json());
+app.use(bodyParser.json());
 // here we configure express's body parser to support urlencoded
-server.use(bodyParser.urlencoded({extended : false }));
+app.use(bodyParser.urlencoded({extended : false }));
 
-server.use('/', index);
-server.use('/login', login);
-server.use('/logout', logout);
-server.use('/signup', signup);
+app.use('/', index);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/signup', signup);
 
 // 404 handler
-server.use(function(req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error('Not found');
     err.status = 404;
     next(err);
 });
 
-if(server.get('env') === 'development') {
-    server.use(function(err, req, res, next) {
+if(app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.status('error').json({ message : err.message, error : err });
     });
 }
 
-server.use(function(err, req, res, next) {
+app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.status('error').json({ message : err.message, error : {} });
 });
 
-module.exports = server;
+module.exports = app;
 

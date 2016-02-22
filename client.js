@@ -1,8 +1,8 @@
 var db = require('./database');
 
-var session = {};
+var client = {};
 
-session.login = function(req, res, next) { 
+client.login = function(req, res, next) { 
     db.authenticate(req.body.email, req.body.password, function(err, user) {
 	if (err) {
 	   console.error(err);
@@ -17,15 +17,15 @@ session.login = function(req, res, next) {
     });
 };
 
-session.logout = function(req, res, next) {
+client.logout = function(req, res, next) {
 
 }
 
-session.authorize = function(req, res, next) {
+client.authorize = function(req, res, next) {
 
 }
 
-session.signup = function(req, res, next) {
+client.signup = function(req, res, next) {
     db.create(req.body.username, req.body.email, req.body.password, req.body.geoLocation,
     function (msg) {
 	if (msg == 'entered new user') {
@@ -38,4 +38,4 @@ session.signup = function(req, res, next) {
     });
 }
 
-module.exports = session;
+module.exports = client;

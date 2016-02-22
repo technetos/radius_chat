@@ -1,7 +1,7 @@
 var express     = require('express');
 var router      = express.Router();
-var session     = require('../session');
+var client      = require('../client');
 
-router.get('/', session.logout);
+router.get('/', client.logout);
 
 module.exports = router;
